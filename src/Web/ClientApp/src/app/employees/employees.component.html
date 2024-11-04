@@ -1,0 +1,415 @@
+<h1>Сотруднички</h1>
+
+
+<table class="table table-striped" aria-labelledby="tablelabel" >
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>Название</th>
+    <th>Количество сотрудников</th>
+    <th>
+      <button class="btn btn-primary float-end" title="New Department..."
+              (click)="showNewDepartmentModal(newDepartmentModalTemplate)">
+        <i class="bi bi-building-fill-add "></i>
+      </button>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let department of departments">
+    <td>{{department.id}}</td>
+    <td>{{department.title}} {{remainingPositions(department)}}</td>
+    <td>{{remainingEmployeesfromDep(department)}}</td>
+    <td>
+      <button class="btn btn-primary float-start" title="Edit"
+              (click)="showDepartmentDetailModal(updateDepartmentModalTemplate, department)"> Изменить
+      </button>
+      <button class="btn btn-danger" title="Delete"
+              (click)="confirmDeleteDepartment(deleteDepartmentModalTemplate, department)"> Удалить
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<table class="table table-striped" aria-labelledby="tablelabel" >
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>Название</th>
+    <th>Зарплата</th>
+    <th>
+      <button class="btn btn-primary float-end" title="New Position..."
+              (click)="showNewPositionModal(newPositionModalTemplate)">
+        <i class="bi bi-database-fill-add "></i>
+      </button>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let position of positions">
+    <td>{{position.id}}</td>
+    <td>{{position.title}} {{remainingEmployees(position)}}</td>
+    <td>{{position.salary}} ₽</td>
+    <td>
+      <button class="btn btn-primary float-lg-end" title="Edit"
+              (click)="showPositionDetailModal(updatePositionModalTemplate, position)"> Изменить
+      </button>
+      <button class="btn btn-danger float-lg-end" title="Delete"
+              (click)="confirmDeletePosition(deletePositionModalTemplate, position)"> Удалить
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<table class="table table-striped" aria-labelledby="tablelabel" >
+  <thead>
+  <tr>
+    <th>Отдел</th>
+    <th>Должность</th>
+    <th>ФИО</th>
+    <th>Дата рождения</th>
+    <th>Дата трудоустройства</th>
+    <th>Зарплата</th>
+    <th>
+      <button class="btn btn-primary float-end" title="New Employee..."
+              (click)="showNewEmployeeModal(newEmployeeModalTemplate)">
+        <i class="bi bi-person-fill-add"></i>
+      </button>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let employee of employees">
+    <td>{{ employee.department || 'Не указано' }}</td>
+    <td>{{employee.position}}</td>
+    <td>{{employee.name}}</td>
+    <td>{{employee.dateOfBirth.toLocaleDateString()}}</td>
+    <td>{{employee.dateOfWork.toLocaleDateString()}}</td>
+    <td>{{employee.salary}}</td>
+    <td>
+      <button class="btn btn-primary float-start" title="Edit"
+              (click)="showEmployeeDetailModal(detailEmployeeModalTemplate, employee)"> Изменить
+      </button>
+      <button class="btn btn-danger" title="Delete"
+              (click)="confirmDeleteEmployee(deleteEmployeeModalTemplate, employee)"> Удалить
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<ng-template #newDepartmentModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Новый отдел</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="newDepartmentCancelled()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div>
+        <label for="title">Отдел</label>
+        <input type="text" class="form-control" id="title" placeholder="Название отдела" [(ngModel)]="newDepartmentEditor.title"
+               [ngClass]="{ 'is-invalid': newDepartmentEditor.error }" (keyup.enter)="addDepartment()" maxlength="50" />
+        <div *ngIf="newDepartmentEditor.error" class="invalid-feedback">
+          {{ newDepartmentEditor.error }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="debug">
+      <pre>{{ newDepartmentEditor | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button class="btn btn-default" (click)="newDepartmentCancelled()">Cancel</button>
+      <button class="btn btn-primary" (click)="addDepartment()">Create</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updateDepartmentModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Обновить отдел</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="detailDepartmentCancelled()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div>
+        <label for="title">Отдел</label>
+        <input type="text" class="form-control" id="title" placeholder="Название отдела" [(ngModel)]="detailDepartmentEditor.title"
+               [ngClass]="{ 'is-invalid': detailDepartmentEditor.error }" (keyup.enter)="addDepartment()" maxlength="50" />
+        <div *ngIf="detailDepartmentEditor.error" class="invalid-feedback">
+          {{ detailDepartmentEditor.error }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!debug">
+      <pre>{{ detailDepartmentEditor | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button class="btn btn-default" (click)="detailDepartmentCancelled()">Отменить</button>
+      <button class="btn btn-primary" (click)="updateDepartmentDetails()">Обновить</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteDepartmentModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Удалить "{{ selectedDepartment.title }}"?</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="deleteDepartmentModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Отдел будет удален </p>
+    <div *ngIf="!debug">
+      <pre>{{ selectedDepartment | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button type="button" class="btn btn-default" (click)="deleteDepartmentModalRef.hide()">Отмена</button>
+      <button type="button" class="btn btn-danger" (click)="deleteDepartmentConfirmed()">Удалить</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #detailEmployeeModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Новый сотрудник</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="detailEmployeeModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form">
+      <div class="form-group">
+        <label for="department">Отдел</label>
+        <select class="form-control" [(ngModel)]="detailEmployeeEditor.departmentId" (change)="onDepartmentChange(detailEmployeeEditor.departmentId)">
+          <option [ngValue]="department.id" *ngFor="let department of departments">{{ department.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="position">Должность</label>
+        <select class="form-control" [(ngModel)]="detailEmployeeEditor.positionId">
+          <option [ngValue]="position.id" *ngFor="let position of filteredPositions">{{ position.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Фамилия</label>
+        <input type="text" id="lastName" class="form-control" [(ngModel)]="detailEmployeeEditor.lastName">
+        <label for="firstName">Имя</label>
+        <input type="text" id="firstName" class="form-control" [(ngModel)]="detailEmployeeEditor.firstName">
+        <label for="surName">Отчество</label>
+        <input type="text" id="surName" class="form-control" [(ngModel)]="detailEmployeeEditor.surName">
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Дата рождения</label>
+        <input type="date" id="dateOfBirth" class="form-control" [(ngModel)]="detailEmployeeEditor.dateOfBirth">
+      </div>
+    </div>
+    <div *ngIf="!debug">
+      <pre>{{ detailEmployeeEditor | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="clearfix">
+      <div class="float-end">
+        <button class="btn btn-default" (click)="detailEmployeeModalRef.hide()">Отмена</button>
+        <button class="btn btn-primary" (click)="updateEmployeeDetails()">Добавить</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #deleteEmployeeModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Удалить "{{ deletedEmployee.name }}"?</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="deleteEmployeeModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Сотрудник будет удален </p>
+    <div *ngIf="!debug">
+      <pre>{{ deletedEmployee | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button type="button" class="btn btn-default" (click)="deleteEmployeeModalRef.hide()">Отмена</button>
+      <button type="button" class="btn btn-danger" (click)="deleteEmployeeConfirmed()">Удалить</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #newEmployeeModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Новый сотрудник</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="newEmployeeModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form">
+      <div class="form-group">
+        <label for="department">Отдел</label>
+        <select class="form-control" [(ngModel)]="newEmployeeEditor.departmentId" (change)="onDepartmentChange(newEmployeeEditor.departmentId)">
+          <option [ngValue]="department.id" *ngFor="let department of departments">{{ department.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="position">Должность</label>
+        <select class="form-control" [(ngModel)]="newEmployeeEditor.positionId">
+          <option [ngValue]="position.id" *ngFor="let position of filteredPositions">{{ position.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Фамилия</label>
+        <input type="text" id="lastName" class="form-control" [(ngModel)]="newEmployeeEditor.lastName">
+        <label for="firstName">Имя</label>
+        <input type="text" id="firstName" class="form-control" [(ngModel)]="newEmployeeEditor.firstName">
+        <label for="surName">Отчество</label>
+        <input type="text" id="surName" class="form-control" [(ngModel)]="newEmployeeEditor.surName">
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Дата рождения</label>
+        <input type="date" id="dateOfBirth" class="form-control" [(ngModel)]="newEmployeeEditor.dateOfBirth">
+      </div>
+    </div>
+    <div *ngIf="!debug">
+      <pre>{{ newEmployeeEditor | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="clearfix">
+      <div class="float-end">
+        <button class="btn btn-default" (click)="newEmployeeModalRef.hide()">Отмена</button>
+        <button class="btn btn-primary" (click)="addEmployee()">Добавить</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #newPositionModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Новая должность {{newPositionEditor.title}}</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="newPositionCancelled()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="department">Отдел</label>
+      <select class="form-control" [(ngModel)]="newPositionEditor.departmentId">
+        <option [ngValue]="department.id" *ngFor="let department of departments">{{ department.title }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <div>
+        <label for="title">Должность</label>
+        <input type="text" class="form-control" id="title" placeholder="Название должности" [(ngModel)]="newPositionEditor.title"
+               [ngClass]="{ 'is-invalid': newDepartmentEditor.error }" (keyup.enter)="addPosition()" maxlength="50" />
+        <div *ngIf="newDepartmentEditor.error" class="invalid-feedback">
+          {{ newDepartmentEditor.error }}
+        </div>
+        <label for="title">Оклад</label>
+        <input type="number" class="form-control" id="salary" placeholder="Оклад" [(ngModel)]="newPositionEditor.salary"
+               [ngClass]="{ 'is-invalid': detailPositionEditor.error }" (keyup.enter)="addPosition()" />
+        <div *ngIf="detailPositionEditor.error" class="invalid-feedback">
+          {{ detailPositionEditor.error }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!debug">
+      <pre>{{ newPositionEditor | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button class="btn btn-default" (click)="newPositionCancelled()">Cancel</button>
+      <button class="btn btn-primary" (click)="addPosition()">Create</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updatePositionModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Обновить должность</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="detailPositionCancelled()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div>
+        <div class="form-group">
+          <label for="department">Отдел</label>
+          <select class="form-control" [(ngModel)]="detailPositionEditor.departmentId">
+            <option [ngValue]="department.id" *ngFor="let department of departments">{{ department.title }}</option>
+          </select>
+        </div>
+        <label for="title">Должность</label>
+        <input type="text" class="form-control" id="title" placeholder="Название должности" [(ngModel)]="detailPositionEditor.title"
+               [ngClass]="{ 'is-invalid': detailPositionEditor.error }" (keyup.enter)="updatePositionDetails()" maxlength="50" />
+        <div *ngIf="detailPositionEditor.error" class="invalid-feedback">
+          {{ detailPositionEditor.error }}
+        </div>
+        <label for="title">Оклад</label>
+        <input type="number" class="form-control" id="salary" placeholder="Оклад" [(ngModel)]="detailPositionEditor.salary"
+               [ngClass]="{ 'is-invalid': detailPositionEditor.error }" (keyup.enter)="updatePositionDetails()" maxlength="50" />
+        <div *ngIf="detailPositionEditor.error" class="invalid-feedback">
+          {{ detailPositionEditor.error }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!debug">
+      <pre>{{ detailPositionEditor | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button class="btn btn-default" (click)="detailPositionCancelled()">Отменить</button>
+      <button class="btn btn-primary" (click)="updatePositionDetails()">Обновить</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deletePositionModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Удалить "{{ selectedPosition.title }}"?</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="deletePositionModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Отдел будет удален </p>
+    <div *ngIf="!debug">
+      <pre>{{ selectedPosition | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button type="button" class="btn btn-default" (click)="deletePositionModalRef.hide()">Отмена</button>
+      <button type="button" class="btn btn-danger" (click)="deletePositionConfirmed()">Удалить</button>
+    </div>
+  </div>
+</ng-template>
