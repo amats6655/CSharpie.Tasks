@@ -1,4 +1,4 @@
-﻿using CSharpie.Tasks.Domain.Events;
+﻿using CSharpie.Tasks.Domain.Events.Todo;
 using Microsoft.Extensions.Logging;
 
 namespace CSharpie.Tasks.Application.TodoItems.EventHandlers;

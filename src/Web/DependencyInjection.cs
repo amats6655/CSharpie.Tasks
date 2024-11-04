@@ -4,8 +4,7 @@ using CSharpie.Tasks.Infrastructure.Data;
 using CSharpie.Tasks.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
-
-namespace Microsoft.Extensions.DependencyInjection;
+namespace CSharpie.Tasks.Web;
 
 public static class DependencyInjection
 {

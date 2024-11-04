@@ -1,4 +1,7 @@
+using CSharpie.Tasks.Application;
+using CSharpie.Tasks.Infrastructure;
 using CSharpie.Tasks.Infrastructure.Data;
+using CSharpie.Tasks.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,4 +50,7 @@ app.MapEndpoints();
 
 app.Run();
 
-public partial class Program { }
+namespace CSharpie.Tasks.Web
+{
+    public partial class Program { }
+}

@@ -1,4 +1,4 @@
-﻿namespace CSharpie.Tasks.Domain.Events;
+﻿namespace CSharpie.Tasks.Domain.Events.Todo;
 
 public class TodoItemCompletedEvent : BaseEvent
 {

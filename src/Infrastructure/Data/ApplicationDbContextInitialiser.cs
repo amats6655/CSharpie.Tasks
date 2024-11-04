@@ -105,5 +105,35 @@ public class ApplicationDbContextInitialiser
 
             await _context.SaveChangesAsync();
         }
+
+        if (!_context.Departments.Any())
+        {
+            _context.Departments.Add(new Department
+            {
+                Title = "Первый департамент",
+                Positions = new List<Position>
+                {
+                    new Position
+                    {
+                        DepartmentId = 1,
+                        Title = "Первая должность",
+                        Salary = 100,
+                        Employees = new List<Employee>
+                        {
+                            new Employee
+                            {
+                                PositionId = 1,
+                                FirstName = "Иван",
+                                LastName = "Иванов",
+                                SurName = "Иванович",
+                                DateOfBirth = DateOnly.Parse("2000-01-01"),
+                                DateOfWork = DateOnly.Parse("2000-01-01")
+                            }
+                        }
+                    }
+                }
+            });
+            await _context.SaveChangesAsync();
+        }
     }
 }

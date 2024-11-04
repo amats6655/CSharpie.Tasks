@@ -1,4 +1,6 @@
-﻿namespace CSharpie.Tasks.Domain.Entities;
+﻿using CSharpie.Tasks.Domain.Events.Todo;
+
+namespace CSharpie.Tasks.Domain.Entities;
 
 public class TodoItem : BaseAuditableEntity
 {

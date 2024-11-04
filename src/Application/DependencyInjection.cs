@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
 using CSharpie.Tasks.Application.Common.Behaviours;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace CSharpie.Tasks.Application;
 
 public static class DependencyInjection
 {

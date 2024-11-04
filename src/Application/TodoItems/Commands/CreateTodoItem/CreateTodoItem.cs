@@ -1,6 +1,6 @@
 ﻿using CSharpie.Tasks.Application.Common.Interfaces;
 using CSharpie.Tasks.Domain.Entities;
-using CSharpie.Tasks.Domain.Events;
+using CSharpie.Tasks.Domain.Events.Todo;
 
 namespace CSharpie.Tasks.Application.TodoItems.Commands.CreateTodoItem;
 

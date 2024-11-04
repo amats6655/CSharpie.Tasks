@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using CSharpie.Tasks.Application.Common.Interfaces;
 using CSharpie.Tasks.Infrastructure.Data;
+using CSharpie.Tasks.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
