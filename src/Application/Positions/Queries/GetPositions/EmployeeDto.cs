@@ -11,12 +11,17 @@ public class EmployeeDto
     public string? SurName { get; init; }
     public DateOnly? DateOfBirth { get; init; }
     public DateOnly? DateOfWork { get; init; }
+    
+    public int DepartmentId { get; init; }
 
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Employee, EmployeeDto>();
+            CreateMap<Employee, EmployeeDto>()
+                .ForMember(dest => dest.DepartmentId,
+                    opt => opt.MapFrom(
+                        src => src.Position!.DepartmentId));
         }
     }
 }

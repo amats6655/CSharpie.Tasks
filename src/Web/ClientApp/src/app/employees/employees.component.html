@@ -19,7 +19,7 @@
   <tr *ngFor="let department of departments">
     <td>{{department.id}}</td>
     <td>{{department.title}} {{remainingPositions(department)}}</td>
-    <td>{{remainingEmployeesfromDep(department)}}</td>
+    <td>{{remainingEmployeesFromDep(department)}}</td>
     <td>
       <button class="btn btn-primary float-start" title="Edit"
               (click)="showDepartmentDetailModal(updateDepartmentModalTemplate, department)"> Изменить
@@ -119,8 +119,8 @@
   <div class="modal-body">
     <div class="form-group">
       <div>
-        <label for="title">Отдел</label>
-        <input type="text" class="form-control" id="title" placeholder="Название отдела" [(ngModel)]="newDepartmentEditor.title"
+        <label for="title-dep">Отдел</label>
+        <input type="text" class="form-control" id="title-dep" placeholder="Название отдела" [(ngModel)]="newDepartmentEditor.title"
                [ngClass]="{ 'is-invalid': newDepartmentEditor.error }" (keyup.enter)="addDepartment()" maxlength="50" />
         <div *ngIf="newDepartmentEditor.error" class="invalid-feedback">
           {{ newDepartmentEditor.error }}
@@ -149,8 +149,8 @@
   <div class="modal-body">
     <div class="form-group">
       <div>
-        <label for="title">Отдел</label>
-        <input type="text" class="form-control" id="title" placeholder="Название отдела" [(ngModel)]="detailDepartmentEditor.title"
+        <label for="title-dep">Отдел</label>
+        <input type="text" class="form-control" id="title-dep" placeholder="Название отдела" [(ngModel)]="detailDepartmentEditor.title"
                [ngClass]="{ 'is-invalid': detailDepartmentEditor.error }" (keyup.enter)="addDepartment()" maxlength="50" />
         <div *ngIf="detailDepartmentEditor.error" class="invalid-feedback">
           {{ detailDepartmentEditor.error }}
@@ -194,7 +194,7 @@
 <ng-template #detailEmployeeModalTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Новый сотрудник</h4>
-    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="detailEmployeeModalRef.hide()">
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="detailEmployeeCancelled()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
@@ -202,13 +202,13 @@
     <div class="form">
       <div class="form-group">
         <label for="department">Отдел</label>
-        <select class="form-control" [(ngModel)]="detailEmployeeEditor.departmentId" (change)="onDepartmentChange(detailEmployeeEditor.departmentId)">
+        <select class="form-control" id="department" [(ngModel)]="detailEmployeeEditor.departmentId" (change)="onDepartmentChange(detailEmployeeEditor.departmentId)">
           <option [ngValue]="department.id" *ngFor="let department of departments">{{ department.title }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="position">Должность</label>
-        <select class="form-control" [(ngModel)]="detailEmployeeEditor.positionId">
+        <select class="form-control" id="position" [(ngModel)]="detailEmployeeEditor.positionId">
           <option [ngValue]="position.id" *ngFor="let position of filteredPositions">{{ position.title }}</option>
         </select>
       </div>
@@ -232,8 +232,8 @@
   <div class="modal-footer">
     <div class="clearfix">
       <div class="float-end">
-        <button class="btn btn-default" (click)="detailEmployeeModalRef.hide()">Отмена</button>
-        <button class="btn btn-primary" (click)="updateEmployeeDetails()">Добавить</button>
+        <button class="btn btn-default" (click)="detailEmployeeCancelled()">Отмена</button>
+        <button class="btn btn-primary" (click)="updateEmployeeDetails()">Обновить</button>
       </div>
     </div>
   </div>
@@ -264,7 +264,7 @@
 <ng-template #newEmployeeModalTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Новый сотрудник</h4>
-    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="newEmployeeModalRef.hide()">
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="newEmployeeCancelled()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
@@ -302,7 +302,7 @@
   <div class="modal-footer">
     <div class="clearfix">
       <div class="float-end">
-        <button class="btn btn-default" (click)="newEmployeeModalRef.hide()">Отмена</button>
+        <button class="btn btn-default" (click)="newEmployeeCancelled()">Отмена</button>
         <button class="btn btn-primary" (click)="addEmployee()">Добавить</button>
       </div>
     </div>

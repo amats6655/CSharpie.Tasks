@@ -1476,6 +1476,7 @@ export class EmployeeDto implements IEmployeeDto {
     surName?: string | undefined;
     dateOfBirth?: Date | undefined;
     dateOfWork?: Date | undefined;
+    departmentId?: number;
 
     constructor(data?: IEmployeeDto) {
         if (data) {
@@ -1495,6 +1496,7 @@ export class EmployeeDto implements IEmployeeDto {
             this.surName = _data["surName"];
             this.dateOfBirth = _data["dateOfBirth"] ? new Date(_data["dateOfBirth"].toString()) : <any>undefined;
             this.dateOfWork = _data["dateOfWork"] ? new Date(_data["dateOfWork"].toString()) : <any>undefined;
+            this.departmentId = _data["departmentId"];
         }
     }
 
@@ -1514,6 +1516,7 @@ export class EmployeeDto implements IEmployeeDto {
         data["surName"] = this.surName;
         data["dateOfBirth"] = this.dateOfBirth ? formatDate(this.dateOfBirth) : <any>undefined;
         data["dateOfWork"] = this.dateOfWork ? formatDate(this.dateOfWork) : <any>undefined;
+        data["departmentId"] = this.departmentId;
         return data;
     }
 }
@@ -1526,6 +1529,7 @@ export interface IEmployeeDto {
     surName?: string | undefined;
     dateOfBirth?: Date | undefined;
     dateOfWork?: Date | undefined;
+    departmentId?: number;
 }
 
 export class CreateDepartmentCommand implements ICreateDepartmentCommand {
@@ -1671,6 +1675,8 @@ export interface IPaginatedListOfEmployeeBriefDto {
 export class EmployeeBriefDto implements IEmployeeBriefDto {
     id?: number;
     department?: string | undefined;
+    departmentId?: number;
+    positionId?: number;
     position?: string | undefined;
     name?: string | undefined;
     dateOfBirth?: Date | undefined;
@@ -1693,6 +1699,8 @@ export class EmployeeBriefDto implements IEmployeeBriefDto {
         if (_data) {
             this.id = _data["id"];
             this.department = _data["department"];
+            this.departmentId = _data["departmentId"];
+            this.positionId = _data["positionId"];
             this.position = _data["position"];
             this.name = _data["name"];
             this.dateOfBirth = _data["dateOfBirth"] ? new Date(_data["dateOfBirth"].toString()) : <any>undefined;
@@ -1715,6 +1723,8 @@ export class EmployeeBriefDto implements IEmployeeBriefDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["department"] = this.department;
+        data["departmentId"] = this.departmentId;
+        data["positionId"] = this.positionId;
         data["position"] = this.position;
         data["name"] = this.name;
         data["dateOfBirth"] = this.dateOfBirth ? formatDate(this.dateOfBirth) : <any>undefined;
@@ -1730,6 +1740,8 @@ export class EmployeeBriefDto implements IEmployeeBriefDto {
 export interface IEmployeeBriefDto {
     id?: number;
     department?: string | undefined;
+    departmentId?: number;
+    positionId?: number;
     position?: string | undefined;
     name?: string | undefined;
     dateOfBirth?: Date | undefined;

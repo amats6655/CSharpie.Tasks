@@ -801,6 +801,10 @@
             "type": "string",
             "format": "date",
             "nullable": true
+          },
+          "departmentId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -869,6 +873,14 @@
           "department": {
             "type": "string",
             "nullable": true
+          },
+          "departmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "positionId": {
+            "type": "integer",
+            "format": "int32"
           },
           "position": {
             "type": "string",

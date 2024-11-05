@@ -1,4 +1,4 @@
-import {Component, TemplateRef, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, TemplateRef, OnInit} from '@angular/core';
 import {
   DepartmentsClient, EmployeesClient, PositionsClient,
   DepartmentDto, EmployeeDto, EmployeeBriefDto, PositionDto,
@@ -7,7 +7,6 @@ import {
   CreatePositionCommand, UpdatePositionCommand
 } from "../web-api-client";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {getLocaleDateFormat} from "@angular/common";
 
 @Component({
   selector: 'app-employees',
@@ -49,8 +48,6 @@ export class EmployeesComponent implements OnInit{
   deletePositionModalRef: BsModalRef;
   detailPositionModalRef: BsModalRef;
 
-  private cdr: ChangeDetectorRef
-
   constructor(
     private departmentsClient: DepartmentsClient,
     private employeesClient: EmployeesClient,
@@ -86,21 +83,10 @@ export class EmployeesComponent implements OnInit{
         }
       },
       error => console.error(error)
-    );
+    )
   }
 
-  ngOnChanges(): void{
-    this.employeesClient.getEmployeesWithPagination(1, 10).subscribe(
-      result => {
-        this.employees = result.items;
 
-        if(this.employees.length) {
-          this.selectedEmployee = this.employees[0];
-        }
-      },
-      error => console.error(error)
-    );
-  }
 
   remainingPositions(department: DepartmentDto): number {
     return department.positions.length;
@@ -108,10 +94,10 @@ export class EmployeesComponent implements OnInit{
   remainingEmployees(position: PositionDto): number {
     return position.employees.length;
   }
-  remainingEmployeesfromDep(department: DepartmentDto): number {
+  remainingEmployeesFromDep(department: DepartmentDto): number {
     let count = 0;
     department.positions.forEach((position) => {
-      position.employees.forEach(employee => {
+      position.employees.forEach(() => {
         count++;
       })
     })
@@ -200,18 +186,29 @@ export class EmployeesComponent implements OnInit{
     this.employeesClient.createEmployee(employee as CreateEmployeeCommand).subscribe(
       result => {
         employee.id = result;
+
+        this.employeesClient.getEmployeesWithPagination(1, 10).subscribe(
+          result => {
+            this.employees = result.items;
+
+            if(this.employees.length) {
+              this.selectedEmployee = this.employees[0];
+            }
+          },
+          error => console.error(error)
+        ),
         this.newEmployeeModalRef.hide();
         this.newEmployeeEditor = {};
       },
       error => {
         const errors = JSON.parse(error.response).errors;
-        this.ngOnChanges();
         if(errors && errors.Title) {
           this.newEmployeeEditor.error = errors.Title[0];
         }
 
         setTimeout(() => document.getElementById('name').focus(), 250);
-      }
+      },
+
     );
   }
 
@@ -305,6 +302,8 @@ export class EmployeesComponent implements OnInit{
       ...this.selectedEmployee,
     };
 
+    this.onDepartmentChange(this.detailEmployeeEditor.departmentId);
+
     this.detailEmployeeModalRef = this.modalService.show(template);
   }
   showPositionDetailModal(template: TemplateRef<any>, position: PositionDto): void {
@@ -349,7 +348,16 @@ export class EmployeesComponent implements OnInit{
         this.selectedEmployee.lastName = this.detailEmployeeEditor.lastName;
         this.selectedEmployee.surName = this.detailEmployeeEditor.surName;
 
+        this.employeesClient.getEmployeesWithPagination(1, 10).subscribe(
+          result => {
+            this.employees = result.items;
 
+            if(this.employees.length) {
+              this.selectedEmployee = this.employees[0];
+            }
+          },
+          error => console.error(error)
+        ),
         this.detailEmployeeModalRef.hide();
         this.detailEmployeeEditor = {};
       },
