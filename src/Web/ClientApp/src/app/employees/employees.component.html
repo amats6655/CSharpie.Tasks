@@ -1,79 +1,67 @@
 <h1>Сотруднички</h1>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="clearfix">
+        <h2 class="float-start">Отдел</h2>
+        <button class="btn btn-default float-end" title="New Department..."
+                (click)="showNewDepartmentModal(newDepartmentModalTemplate)">
+          <i class="bi bi-building-fill-add"></i>
+        </button>
+      </div>
+      <ul class="list-group">
+        <li *ngFor="let department of departments; index as i" class="list-group-item"
+            [ngClass]="{ 'active': selectedDepartment == department }" (click)="selectedDepartment = department">
+          <div class="clearfix">
+            <div class="float-start">
+              {{ department.title }}
+            </div>
+            <div class="float-end text-right">
+              <span class="badge badge-light">{{ remainingEmployeesFromDep(department) }}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-8" *ngIf="selectedDepartment">
+      <div class="clearfix">
+        <h2 class="float-start">{{ selectedDepartment.title }}</h2>
+        <button id="listOptions" class="btn btn-default float-end" title="List Options..."
+                (click)="showDepartmentDetailModal(updateDepartmentModalTemplate, selectedDepartment)">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+      </div>
+      <ul id="positions" class="list-group mb-2">
+        <li class="list-group-item" *ngFor="let position of selectedDepartment.positions; index as i"
+        [ngClass]="{'active': selectedPosition == position}" (click)="selectedPosition = position">
+          <div class="d-flex">
+            <div class="flex-fill">
+              {{position.title}}
+            </div>
+            <div class="todo-item-commands">
+                    <button class="btn btn-primary float-lg" title="Edit"
+                            (click)="showPositionDetailModal(updatePositionModalTemplate, position)"> Изменить
+                    </button>
+                    <button class="btn btn-danger shadow-lg float-lg-end" title="Delete"
+                            (click)="confirmDeletePosition(deletePositionModalTemplate, position)"> Удалить
+                    </button>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item" (click)="showNewPositionModal(newPositionModalTemplate, selectedDepartment)">
+          <button class="btn btn-default" >Add position...</button>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-
-<table class="table table-striped" aria-labelledby="tablelabel" >
+<table class="table table-striped" *ngIf="selectedDepartment" aria-labelledby="tablelabel">
   <thead>
   <tr>
-    <th>id</th>
-    <th>Название</th>
-    <th>Количество сотрудников</th>
-    <th>
-      <button class="btn btn-primary float-end" title="New Department..."
-              (click)="showNewDepartmentModal(newDepartmentModalTemplate)">
-        <i class="bi bi-building-fill-add "></i>
-      </button>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let department of departments">
-    <td>{{department.id}}</td>
-    <td>{{department.title}} {{remainingPositions(department)}}</td>
-    <td>{{remainingEmployeesFromDep(department)}}</td>
-    <td>
-      <button class="btn btn-primary float-start" title="Edit"
-              (click)="showDepartmentDetailModal(updateDepartmentModalTemplate, department)"> Изменить
-      </button>
-      <button class="btn btn-danger" title="Delete"
-              (click)="confirmDeleteDepartment(deleteDepartmentModalTemplate, department)"> Удалить
-      </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
-<table class="table table-striped" aria-labelledby="tablelabel" >
-  <thead>
-  <tr>
-    <th>id</th>
-    <th>Название</th>
-    <th>Зарплата</th>
-    <th>
-      <button class="btn btn-primary float-end" title="New Position..."
-              (click)="showNewPositionModal(newPositionModalTemplate)">
-        <i class="bi bi-database-fill-add "></i>
-      </button>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let position of positions">
-    <td>{{position.id}}</td>
-    <td>{{position.title}} {{remainingEmployees(position)}}</td>
-    <td>{{position.salary}} ₽</td>
-    <td>
-      <button class="btn btn-primary float-lg-end" title="Edit"
-              (click)="showPositionDetailModal(updatePositionModalTemplate, position)"> Изменить
-      </button>
-      <button class="btn btn-danger float-lg-end" title="Delete"
-              (click)="confirmDeletePosition(deletePositionModalTemplate, position)"> Удалить
-      </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
-
-<table class="table table-striped" aria-labelledby="tablelabel" >
-  <thead>
-  <tr>
-    <th>Отдел</th>
-    <th>Должность</th>
     <th>ФИО</th>
     <th>Дата рождения</th>
     <th>Дата трудоустройства</th>
     <th>Зарплата</th>
-    <th>
+    <th width="16%">
       <button class="btn btn-primary float-end" title="New Employee..."
               (click)="showNewEmployeeModal(newEmployeeModalTemplate)">
         <i class="bi bi-person-fill-add"></i>
@@ -82,18 +70,16 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let employee of employees">
-    <td>{{ employee.department || 'Не указано' }}</td>
-    <td>{{employee.position}}</td>
-    <td>{{employee.name}}</td>
+  <tr *ngFor="let employee of selectedPosition.employees">
+    <td>{{employee.lastName + ' ' + employee.firstName + ' ' + employee.surName}}</td>
     <td>{{employee.dateOfBirth.toLocaleDateString()}}</td>
     <td>{{employee.dateOfWork.toLocaleDateString()}}</td>
-    <td>{{employee.salary}}</td>
+    <td>{{selectedPosition.salary}}</td>
     <td>
-      <button class="btn btn-primary float-start" title="Edit"
+      <button class="btn btn-primary float-none" title="Edit"
               (click)="showEmployeeDetailModal(detailEmployeeModalTemplate, employee)"> Изменить
       </button>
-      <button class="btn btn-danger" title="Delete"
+      <button class="btn btn-danger float-end" title="Delete"
               (click)="confirmDeleteEmployee(deleteEmployeeModalTemplate, employee)"> Удалить
       </button>
     </td>
@@ -101,9 +87,9 @@
   </tbody>
 </table>
 
-
-
-
+<div *ngIf="debug">
+  <pre>{{ employees | json }}</pre>
+</div>
 
 
 

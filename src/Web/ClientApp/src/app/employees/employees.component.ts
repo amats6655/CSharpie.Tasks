@@ -60,7 +60,7 @@ export class EmployeesComponent implements OnInit{
       result => {
         this.departments = result.departments;
         if(this.departments.length) {
-          this.selectedDepartment = this.departments[0];
+          // this.selectedDepartment = this.departments[0];
         }
       },
       error => console.error(error)
@@ -70,7 +70,7 @@ export class EmployeesComponent implements OnInit{
         this.employees = result.items;
 
         if(this.employees.length) {
-          this.selectedEmployee = this.employees[0];
+          // this.selectedEmployee = this.employees[0];
         }
       },
       error => console.error(error)
@@ -79,7 +79,7 @@ export class EmployeesComponent implements OnInit{
       result => {
         this.positions = result.positions;
         if(this.positions.length){
-          this.selectedPosition = this.positions[0];
+          // this.selectedPosition = this.positions[0];
         }
       },
       error => console.error(error)
@@ -111,10 +111,17 @@ export class EmployeesComponent implements OnInit{
   }
   showNewEmployeeModal(template: TemplateRef<any>): void {
     this.newEmployeeModalRef = this.modalService.show(template);
-    setTimeout(() => document.getElementById('firstName').focus(), 250);
+    this.newEmployeeEditor.departmentId = this.selectedDepartment.id;
+
+    this.onDepartmentChange(this.newEmployeeEditor.departmentId);
+
+    this.newEmployeeEditor.positionId = this.selectedPosition.id;
+    setTimeout(() => document.getElementById('lastName').focus(), 250);
   }
-  showNewPositionModal(template: TemplateRef<any>): void {
-    this.newPositionModalRef = this.modalService.show(template);
+  showNewPositionModal(template: TemplateRef<any>, department: DepartmentDto): void {
+    this.selectedDepartment = department;
+    this.newPositionEditor.departmentId = this.selectedDepartment.id;
+    this.newPositionModalRef = this.modalService.show(template, this.selectedDepartment);
     setTimeout(() => document.getElementById('title').focus(), 250);
   }
 
@@ -192,11 +199,13 @@ export class EmployeesComponent implements OnInit{
             this.employees = result.items;
 
             if(this.employees.length) {
-              this.selectedEmployee = this.employees[0];
+              // this.selectedEmployee = this.employees[0];
             }
           },
           error => console.error(error)
-        ),
+        )
+
+        this.selectedPosition.employees.push(employee as EmployeeDto);
         this.newEmployeeModalRef.hide();
         this.newEmployeeEditor = {};
       },
@@ -224,7 +233,7 @@ export class EmployeesComponent implements OnInit{
     this.positionsClient.createPosition(position as CreatePositionCommand).subscribe(
       result => {
         position.id = result;
-        this.positions.push(position);
+        this.selectedDepartment.positions.push(position);
         this.selectedPosition = position;
         this.newPositionModalRef.hide();
         this.newPositionEditor = {};
