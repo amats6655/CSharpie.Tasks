@@ -17,7 +17,208 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Department", b =>
+            modelBuilder.Entity("ActorMovie", b =>
+                {
+                    b.Property<int>("ActorsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MoviesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ActorsId", "MoviesId");
+
+                    b.HasIndex("MoviesId");
+
+                    b.ToTable("ActorMovie");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Actor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsAlive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Participant");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Director", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsAlive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Directors");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal?>("Budget")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DirectorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool?>("IsLiked")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("IsWatched")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("MyRating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal?>("Rating")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TrailerUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Year")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DirectorId");
+
+                    b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employees.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +244,7 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employee", b =>
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employees.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +287,7 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Position", b =>
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employees.Position", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,79 +319,6 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Positions");
-                });
-
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.TodoItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("Done")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ListId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("Reminder")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ListId");
-
-                    b.ToTable("TodoItems");
-                });
-
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.TodoList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TodoLists");
                 });
 
             modelBuilder.Entity("CSharpie.Tasks.Infrastructure.Identity.ApplicationUser", b =>
@@ -255,6 +383,21 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("GenreMovie", b =>
+                {
+                    b.Property<int>("GenresId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MoviesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("GenresId", "MoviesId");
+
+                    b.HasIndex("MoviesId");
+
+                    b.ToTable("GenreMovie");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -389,9 +532,46 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employee", b =>
+            modelBuilder.Entity("ActorMovie", b =>
                 {
-                    b.HasOne("CSharpie.Tasks.Domain.Entities.Position", "Position")
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Actor", null)
+                        .WithMany()
+                        .HasForeignKey("ActorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Movie", b =>
+                {
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Director", "Director")
+                        .WithMany("Movies")
+                        .HasForeignKey("DirectorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Director");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Review", b =>
+                {
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Movie", "Movie")
+                        .WithMany("Reviews")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employees.Employee", b =>
+                {
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Employees.Position", "Position")
                         .WithMany("Employees")
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -400,9 +580,9 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                     b.Navigation("Position");
                 });
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Position", b =>
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employees.Position", b =>
                 {
-                    b.HasOne("CSharpie.Tasks.Domain.Entities.Department", "Department")
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Employees.Department", "Department")
                         .WithMany("Positions")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -411,37 +591,18 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.TodoItem", b =>
+            modelBuilder.Entity("GenreMovie", b =>
                 {
-                    b.HasOne("CSharpie.Tasks.Domain.Entities.TodoList", "List")
-                        .WithMany("Items")
-                        .HasForeignKey("ListId")
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("List");
-                });
-
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.TodoList", b =>
-                {
-                    b.OwnsOne("CSharpie.Tasks.Domain.ValueObjects.Colour", "Colour", b1 =>
-                        {
-                            b1.Property<int>("TodoListId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<string>("Code")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("TodoListId");
-
-                            b1.ToTable("TodoLists");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TodoListId");
-                        });
-
-                    b.Navigation("Colour")
+                    b.HasOne("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -496,19 +657,24 @@ namespace CSharpie.Tasks.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Department", b =>
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Director", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Catalogs.Movies.Movie", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employees.Department", b =>
                 {
                     b.Navigation("Positions");
                 });
 
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Position", b =>
+            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.Employees.Position", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("CSharpie.Tasks.Domain.Entities.TodoList", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,5 @@
 using CSharpie.Tasks.Application.Positions.Queries.GetDepartments;
-using CSharpie.Tasks.Domain.Entities;
+
 
 namespace CSharpie.Tasks.Application.Positions.Queries.GetPositions;
 

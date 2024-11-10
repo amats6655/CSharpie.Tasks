@@ -1,5 +1,3 @@
-using CSharpie.Tasks.Domain.Entities;
-
 namespace CSharpie.Tasks.Application.Positions.Queries.GetDepartments;
 
 public class EmployeeDto

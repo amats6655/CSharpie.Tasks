@@ -1,8 +1,9 @@
 using CSharpie.Tasks.Application.Common.Interfaces;
+using CSharpie.Tasks.Application.Common.Security;
 using CSharpie.Tasks.Domain.Entities;
 
 namespace CSharpie.Tasks.Application.Departments.Commands.CreateDepartment;
-
+[Authorize]
 public record CreateDepartmentCommand : IRequest<int>
 {
     public string? Title { get; init; }

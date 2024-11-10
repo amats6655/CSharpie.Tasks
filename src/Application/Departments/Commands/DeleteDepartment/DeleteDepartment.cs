@@ -1,7 +1,9 @@
 using CSharpie.Tasks.Application.Common.Interfaces;
+using CSharpie.Tasks.Application.Common.Security;
 
 namespace CSharpie.Tasks.Application.Departments.Commands.DeleteDepartment;
 
+[Authorize]
 public record DeleteDepartmentCommand(int id) : IRequest;
 
 public class DeleteDepartmentCommandHandler : IRequestHandler<DeleteDepartmentCommand>

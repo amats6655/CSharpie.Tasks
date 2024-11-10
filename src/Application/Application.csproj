@@ -16,4 +16,23 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Catalog\Genres\Commands\CreateGenre\" />
+    <Folder Include="Catalog\Genres\Commands\DeleteGenre\" />
+    <Folder Include="Catalog\Genres\Commands\UpdateGenre\" />
+    <Folder Include="Catalog\Movies\Commands\CreateMovie\" />
+    <Folder Include="Catalog\Movies\Commands\DeleteMovie\" />
+    <Folder Include="Catalog\Movies\Commands\UpdateMovie\" />
+    <Folder Include="Catalog\Participant\Commands\CreateParticipant\" />
+    <Folder Include="Catalog\Participant\Commands\DeleteParticipant\" />
+    <Folder Include="Catalog\Participant\Commands\UpdateParticipant\" />
+    <Folder Include="Catalog\Participant\EventHandlers\" />
+    <Folder Include="Catalog\Genres\EventHandlers\" />
+    <Folder Include="Catalog\Movies\EventHandlers\" />
+    <Folder Include="Catalog\Reviews\Commands\CreateReview\" />
+    <Folder Include="Catalog\Reviews\Commands\DeleteReview\" />
+    <Folder Include="Catalog\Reviews\Commands\UpdateReview\" />
+    <Folder Include="Catalog\Reviews\EventHandlers\" />
+  </ItemGroup>
+
 </Project>

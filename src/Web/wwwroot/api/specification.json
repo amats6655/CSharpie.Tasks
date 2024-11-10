@@ -280,6 +280,48 @@
         }
       }
     },
+    "/api/Movies": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "GetMoviesWithPagination",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfMovieDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Positions": {
       "get": {
         "tags": [
@@ -387,320 +429,6 @@
         "responses": {
           "200": {
             "description": ""
-          }
-        }
-      }
-    },
-    "/api/TodoItems": {
-      "get": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "GetTodoItemsWithPagination",
-        "parameters": [
-          {
-            "name": "ListId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "PageNumber",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "PageSize",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginatedListOfTodoItemBriefDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "CreateTodoItem",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTodoItemCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/TodoItems/{id}": {
-      "put": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "UpdateTodoItem",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoItemCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "DeleteTodoItem",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/TodoItems/UpdateDetail/{id}": {
-      "put": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "UpdateTodoItemDetail",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoItemDetailCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/TodoLists": {
-      "get": {
-        "tags": [
-          "TodoLists"
-        ],
-        "operationId": "GetTodoLists",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TodosVm"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "TodoLists"
-        ],
-        "operationId": "CreateTodoList",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTodoListCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/TodoLists/{id}": {
-      "put": {
-        "tags": [
-          "TodoLists"
-        ],
-        "operationId": "UpdateTodoList",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoListCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "TodoLists"
-        ],
-        "operationId": "DeleteTodoList",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/WeatherForecasts": {
-      "get": {
-        "tags": [
-          "WeatherForecasts"
-        ],
-        "operationId": "GetWeatherForecasts",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -975,6 +703,214 @@
           }
         }
       },
+      "PaginatedListOfMovieDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MovieDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MovieDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "trailerUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "budget": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "isWatched": {
+            "type": "boolean"
+          },
+          "isLiked": {
+            "type": "boolean"
+          },
+          "myRating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "director": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantDto"
+              }
+            ]
+          },
+          "genres": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GenreDto"
+            }
+          },
+          "actors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
+          },
+          "reviews": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ReviewDto"
+            }
+          }
+        }
+      },
+      "ParticipantDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "biography": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "isAlive": {
+            "type": "boolean"
+          },
+          "movies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MovieDto"
+            }
+          }
+        }
+      },
+      "GenreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "movies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MovieDto"
+            }
+          }
+        }
+      },
+      "ReviewDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "movie": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MovieDto"
+              }
+            ]
+          },
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "PositionsVM": {
         "type": "object",
         "additionalProperties": false,
@@ -1024,256 +960,6 @@
           "salary": {
             "type": "number",
             "format": "decimal"
-          }
-        }
-      },
-      "PaginatedListOfTodoItemBriefDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoItemBriefDto"
-            }
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hasPreviousPage": {
-            "type": "boolean"
-          },
-          "hasNextPage": {
-            "type": "boolean"
-          }
-        }
-      },
-      "TodoItemBriefDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "listId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "done": {
-            "type": "boolean"
-          }
-        }
-      },
-      "CreateTodoItemCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "listId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateTodoItemCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "done": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UpdateTodoItemDetailCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "listId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "priority": {
-            "$ref": "#/components/schemas/PriorityLevel"
-          },
-          "note": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "PriorityLevel": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "None",
-          "Low",
-          "Medium",
-          "High"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
-      },
-      "TodosVm": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "priorityLevels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LookupDto"
-            }
-          },
-          "lists": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoListDto"
-            }
-          }
-        }
-      },
-      "LookupDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "TodoListDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "colour": {
-            "type": "string",
-            "nullable": true
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoItemDto"
-            }
-          }
-        }
-      },
-      "TodoItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "listId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "done": {
-            "type": "boolean"
-          },
-          "priority": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "note": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "CreateTodoListCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateTodoListCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "WeatherForecast": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
           }
         }
       }

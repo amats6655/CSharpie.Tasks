@@ -2,9 +2,9 @@ namespace CSharpie.Tasks.Domain.Events.Employee;
 
 public class EmployeeCreatedEvent : BaseEvent
 {
-    public EmployeeCreatedEvent(Entities.Employee employee)
+    public EmployeeCreatedEvent(Entities.Employees.Employee employee)
     {
         Employee = employee;
     }
-    public Entities.Employee Employee { get; }
+    public Entities.Employees.Employee Employee { get; }
 }

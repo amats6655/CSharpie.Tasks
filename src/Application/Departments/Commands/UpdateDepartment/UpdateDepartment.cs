@@ -1,7 +1,9 @@
 using CSharpie.Tasks.Application.Common.Interfaces;
+using CSharpie.Tasks.Application.Common.Security;
 
 namespace CSharpie.Tasks.Application.Departments.Commands.UpdateDepartment;
 
+[Authorize]
 public record UpdateDepartmentCommand : IRequest
 {
     public int Id { get; init; }
