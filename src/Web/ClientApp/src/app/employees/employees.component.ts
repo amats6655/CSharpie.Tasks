@@ -36,15 +36,12 @@ export class EmployeesComponent implements OnInit{
   detailPositionEditor: any = {};
 
   newDepartmentModalRef: BsModalRef;
-  optionsDepartmentModalRef: BsModalRef;
   deleteDepartmentModalRef: BsModalRef;
   detailDepartmentModalRef: BsModalRef;
   newEmployeeModalRef: BsModalRef;
-  optionsEmployeeModalRef: BsModalRef;
   deleteEmployeeModalRef: BsModalRef;
   detailEmployeeModalRef: BsModalRef;
   newPositionModalRef: BsModalRef;
-  optionsPositionModalRef: BsModalRef;
   deletePositionModalRef: BsModalRef;
   detailPositionModalRef: BsModalRef;
 
@@ -307,14 +304,22 @@ export class EmployeesComponent implements OnInit{
   }
   showEmployeeDetailModal(template: TemplateRef<any>, employee: EmployeeDto): void {
     this.selectedEmployee = employee;
-    this.detailEmployeeEditor = {
-      ...this.selectedEmployee,
-    };
+    this.detailEmployeeEditor = { ...this.selectedEmployee };
+
+    // Преобразуем дату в строку формата yyyy-MM-dd
+    if (employee.dateOfBirth) {
+      const date = new Date(employee.dateOfBirth);
+      this.detailEmployeeEditor.dateOfBirth = date.toISOString().slice(0, 10);
+    } else {
+      this.detailEmployeeEditor.dateOfBirth = null;
+    }
 
     this.onDepartmentChange(this.detailEmployeeEditor.departmentId);
-
     this.detailEmployeeModalRef = this.modalService.show(template);
   }
+
+
+
   showPositionDetailModal(template: TemplateRef<any>, position: PositionDto): void {
     this.selectedPosition = position;
     this.detailPositionEditor = {
